@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Princess! 💖 A & S</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        themePrimary: 'var(--bg-primary)',
+                        themeSecondary: 'var(--bg-secondary)',
+                        themeAccent: 'var(--accent-color)',
+                        themeText: 'var(--text-color)',
+                    },
+                    fontFamily: {
+                        fredoka: ['"Fredoka One"', 'cursive'],
+                        handwriting: ['"Dancing Script"', 'cursive'],
+                        sans: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-primary: #fff0f5;
+            --bg-secondary: #ffe4e1;
+            --accent-color: #ff69b4;
+            --accent-hover: #ff1493;
+            --text-color: #4a4a4a;
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 182, 193, 0.6);
+        }
+
+        body.theme-sunset {
+            --bg-primary: #fff3e0;
+            --bg-secondary: #ffe0b2;
+            --accent-color: #ff7043;
+            --accent-hover: #f4511e;
+            --text-color: #4e342e;
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(255, 171, 145, 0.6);
+        }
+
+        body.theme-twilight {
+            --bg-primary: #f3e8ff;
+            --bg-secondary: #e9d5ff;
+            --accent-color: #a855f7;
+            --accent-hover: #9333ea;
+            --text-color: #581c87;
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(216, 180, 254, 0.6);
+        }
+
+        body.theme-gold {
+            --bg-primary: #fffbeb;
+            --bg-secondary: #fef3c7;
+            --accent-color: #f59e0b;
+            --accent-hover: #d97706;
+            --text-color: #78350f;
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(252, 211, 77, 0.6);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            color: var(--text-color);
+            font-family: 'Nunito', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 2rem;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 4s ease-in-out 2s infinite;
+        }
+
+        /* Heart Pulse Animation */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.15); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
+        .heart-beat {
+            animation: heartBeat 2s infinite;
+        }
+
+        /* Flame Flicker Animation */
+        @keyframes flameFlicker {
+            0%, 100% { transform: scale(1) rotate(-2deg); opacity: 0.95; }
+            50% { transform: scale(1.18) rotate(2deg); opacity: 1; filter: drop-shadow(0 0 12px #ff9900); }
+        }
+        .flame {
+            animation: flameFlicker 0.5s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        /* Smoke Particle Animation when candle is blown */
+        @keyframes smokeUp {
+            0% { transform: translateY(0) scale(1); opacity: 0.8; }
+            100% { transform: translateY(-30px) scale(2.5); opacity: 0; }
+        }
+        .smoke-particle {
+            animation: smokeUp 1.2s ease-out forwards;
+        }
+
+        /* Floating Balloon Styles */
+        .floating-balloon {
+            position: absolute;
+            bottom: -100px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s ease;
+            z-index: 10;
+        }
+        .floating-balloon:hover {
+            transform: scale(1.12);
+        }
+
+        /* Rising Background Particles */
+        @keyframes riseUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            animation: riseUp 8s linear infinite;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-12 flex flex-col justify-between">
+
+    <div id="balloonContainer" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
+    <div id="particleContainer" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+    <section id="openingScene" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 transition-all duration-1000">
+        <div class="glass-card p-8 md:p-12 max-w-xl w-full text-center flex flex-col items-center relative overflow-hidden shadow-2xl border-4 border-pink-200">
+            
+            <div class="absolute -top-10 -left-10 w-28 h-28 bg-pink-300 rounded-full blur-2xl opacity-50"></div>
+            <div class="absolute -bottom-10 -right-10 w-28 h-28 bg-purple-300 rounded-full blur-2xl opacity-50"></div>
+
+            <span class="text-xs font-extrabold tracking-widest text-pink-500 uppercase mb-2">A Very Special Celebration</span>
+            <h1 class="font-fredoka text-3xl md:text-5xl text-pink-600 mb-2 drop-shadow-sm">Happy Birthday Sweet Girl! 🎉</h1>
+            <p class="text-xs font-bold text-pink-400 mb-4 tracking-wider uppercase">Welcome to your magical place</p>
+
+            <!-- CUTE ANIMATED TEDDY BEARS (A & S) SVG / CSS ILLUSTRATION -->
+            <div class="relative w-80 h-56 my-2 flex items-center justify-center">
+                <!-- Floating Heart Between Bears -->
+                <div class="absolute top-1 z-20 text-red-500 text-4xl heart-beat">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+
+                <!-- Animated Ribbon Banner Held by Bears reading A ❤️ S Forever -->
+                <div class="absolute bottom-1 z-30 bg-gradient-to-r from-pink-500 via-rose-400 to-pink-500 text-white px-5 py-1.5 rounded-full border-2 border-white shadow-lg transform -rotate-1 flex items-center gap-2">
+                    <span class="font-fredoka text-base tracking-wide text-white drop-shadow">A ❤️ S Forever</span>
+                </div>
+
+                <!-- Left Bear (Bear A - Warm Caramel) -->
+                <div class="absolute left-3 bottom-8 w-32 h-40 flex flex-col items-center animate-float">
+                    <svg viewBox="0 0 100 120" class="w-full h-full drop-shadow-md">
+                        <!-- Ears -->
+                        <circle cx="25" cy="25" r="14" fill="#a66a40" stroke="#73401d" stroke-width="3"/>
+                        <circle cx="25" cy="25" r="7" fill="#f7b0b0"/>
+                        <circle cx="75" cy="25" r="14" fill="#a66a40" stroke="#73401d" stroke-width="3"/>
+                        <circle cx="75" cy="25" r="7" fill="#f7b0b0"/>
+                        <!-- Body -->
+                        <ellipse cx="50" cy="85" rx="30" ry="28" fill="#8f562e" stroke="#73401d" stroke-width="3"/>
+                        <ellipse cx="50" cy="85" rx="18" ry="16" fill="#fde0dc"/>
+                        <!-- Bear Badge A -->
+                        <text x="50" y="91" font-family="Fredoka One, cursive" font-size="14" fill="#be185d" text-anchor="middle" font-weight="bold">A</text>
+                        <!-- Head -->
+                        <circle cx="50" cy="45" r="30" fill="#a66a40" stroke="#73401d" stroke-width="3"/>
+                        <!-- Eyes -->
+                        <circle cx="38" cy="40" r="3.5" fill="#1f2937"/>
+                        <circle cx="62" cy="40" r="3.5" fill="#1f2937"/>
+                        <circle cx="39.5" cy="38.5" r="1.2" fill="#ffffff"/>
+                        <circle cx="63.5" cy="38.5" r="1.2" fill="#ffffff"/>
+                        <!-- Snout -->
+                        <ellipse cx="50" cy="50" rx="12" ry="9" fill="#fde0dc" stroke="#e5a7a0" stroke-width="1"/>
+                        <ellipse cx="50" cy="47" rx="5" ry="3.5" fill="#374151"/>
+                        <path d="M 50 50 Q 50 56 45 56 M 50 50 Q 50 56 55 56" stroke="#374151" stroke-width="2" fill="none"/>
+                        <!-- Cheeks -->
+                        <ellipse cx="32" cy="48" rx="4" ry="2.5" fill="#f43f5e" opacity="0.5"/>
+                        <ellipse cx="68" cy="48" rx="4" ry="2.5" fill="#f43f5e" opacity="0.5"/>
+                        <!-- Arms Holding Ribbon -->
+                        <ellipse cx="22" cy="75" rx="8" ry="16" fill="#8f562e" stroke="#73401d" stroke-width="2" transform="rotate(25 22 75)"/>
+                        <ellipse cx="78" cy="75" rx="8" ry="16" fill="#8f562e" stroke="#73401d" stroke-width="2" transform="rotate(-35 78 75)"/>
+                    </svg>
+                </div>
+
+                <!-- Right Bear (Bear S - Soft Cream) -->
+                <div class="absolute right-3 bottom-8 w-32 h-40 flex flex-col items-center animate-float-delayed">
+                    <svg viewBox="0 0 100 120" class="w-full h-full drop-shadow-md">
+                        <!-- Ears -->
+                        <circle cx="25" cy="25" r="14" fill="#f7e6d0" stroke="#c7a783" stroke-width="3"/>
+                        <circle cx="25" cy="25" r="7" fill="#f7b0b0"/>
+                        <circle cx="75" cy="25" r="14" fill="#f7e6d0" stroke="#c7a783" stroke-width="3"/>
+                        <circle cx="75" cy="25" r="7" fill="#f7b0b0"/>
+                        <!-- Body -->
+                        <ellipse cx="50" cy="85" rx="30" ry="28" fill="#ebd3b5" stroke="#c7a783" stroke-width="3"/>
+                        <ellipse cx="50" cy="85" rx="18" ry="16" fill="#ffffff"/>
+                        <!-- Bear Badge S -->
+                        <text x="50" y="91" font-family="Fredoka One, cursive" font-size="14" fill="#be185d" text-anchor="middle" font-weight="bold">S</text>
+                        <!-- Head -->
+                        <circle cx="50" cy="45" r="30" fill="#f7e6d0" stroke="#c7a783" stroke-width="3"/>
+                        <!-- Eyes -->
+                        <circle cx="38" cy="40" r="3.5" fill="#1f2937"/>
+                        <circle cx="62" cy="40" r="3.5" fill="#1f2937"/>
+                        <circle cx="39.5" cy="38.5" r="1.2" fill="#ffffff"/>
+                        <circle cx="63.5" cy="38.5" r="1.2" fill="#ffffff"/>
+                        <!-- Bow Tie -->
+                        <path d="M 42 62 L 58 68 L 58 56 Z M 58 62 L 42 68 L 42 56 Z" fill="#ff69b4"/>
+                        <circle cx="50" cy="62" r="3" fill="#ff1493"/>
+                        <!-- Snout -->
+                        <ellipse cx="50" cy="50" rx="12" ry="9" fill="#ffffff" stroke="#e5a7a0" stroke-width="1"/>
+                        <ellipse cx="50" cy="47" rx="5" ry="3.5" fill="#831843"/>
+                        <path d="M 50 50 Q 50 56 45 56 M 50 50 Q 50 56 55 56" stroke="#374151" stroke-width="2" fill="none"/>
+                        <!-- Cheeks -->
+                        <ellipse cx="32" cy="48" rx="4" ry="2.5" fill="#f43f5e" opacity="0.6"/>
+                        <ellipse cx="68" cy="48" rx="4" ry="2.5" fill="#f43f5e" opacity="0.6"/>
+                        <!-- Arms Holding Ribbon -->
+                        <ellipse cx="22" cy="75" rx="8" ry="16" fill="#ebd3b5" stroke="#c7a783" stroke-width="2" transform="rotate(35 22 75)"/>
+                        <ellipse cx="78" cy="75" rx="8" ry="16" fill="#ebd3b5" stroke="#c7a783" stroke-width="2" transform="rotate(-25 78 75)"/>
+                    </svg>
+                </div>
+            </div>
+
+            <p class="text-gray-600 font-semibold mb-6 px-4 text-sm md:text-base">
+                An interactive birthday journey made with endless love just for you!
+            </p>
+
+            <button id="startBtn" onclick="enterCelebration()" class="group relative inline-flex items-center justify-center px-8 py-4 font-extrabold text-white transition-all duration-300 bg-pink-500 rounded-full hover:bg-pink-600 shadow-lg hover:shadow-pink-300 hover:-translate-y-1 active:translate-y-0 cursor-pointer overflow-hidden">
+                <span class="relative flex items-center gap-3 text-lg">
+                    <i class="fa-solid fa-envelope-open-text text-xl group-hover:scale-110 transition-transform"></i>
+                    Open Love Letter & Celebration
+                </span>
+            </button>
+        </div>
+    </section>
+
+    <header id="mainHeader" class="sticky top-0 z-40 px-4 py-3 opacity-0 transition-opacity duration-700">
+        <div class="max-w-5xl mx-auto glass-card px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- Header Branding -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-md font-bold text-lg">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <div>
+                    <h2 class="font-fredoka text-xl text-pink-600 leading-tight" id="displayHeaderName">My Princess S</h2>
+                    <p class="text-xs text-gray-500 font-semibold">A ❤️ S Celebration ✨</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="flex items-center gap-1 sm:gap-2 bg-white/60 p-1.5 rounded-full border border-pink-100 shadow-inner">
+                <button onclick="switchTab('letter')" id="nav-letter" class="nav-btn px-4 py-2 rounded-full font-bold text-sm transition-all text-pink-600 bg-white shadow-sm">
+                    <i class="fa-solid fa-envelope-heart sm:mr-1"></i> <span class="hidden sm:inline">Love Letter</span>
+                </button>
+                <button onclick="switchTab('main')" id="nav-main" class="nav-btn px-4 py-2 rounded-full font-bold text-sm transition-all text-gray-600 hover:text-pink-600">
+                    <i class="fa-solid fa-cake-candles sm:mr-1"></i> <span class="hidden sm:inline">Cake & Wish</span>
+                </button>
+                <button onclick="switchTab('games')" id="nav-games" class="nav-btn px-4 py-2 rounded-full font-bold text-sm transition-all text-gray-600 hover:text-pink-600">
+                    <i class="fa-solid fa-gamepad sm:mr-1"></i> <span class="hidden sm:inline">Games</span>
+                </button>
+                <button onclick="switchTab('wishes')" id="nav-wishes" class="nav-btn px-4 py-2 rounded-full font-bold text-sm transition-all text-gray-600 hover:text-pink-600">
+                    <i class="fa-solid fa-sticky-note sm:mr-1"></i> <span class="hidden sm:inline">Notes</span>
+                </button>
+                <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn px-4 py-2 rounded-full font-bold text-sm transition-all text-gray-600 hover:text-pink-600">
+                    <i class="fa-solid fa-gear sm:mr-1"></i> <span class="hidden sm:inline">Settings</span>
+                </button>
+            </nav>
+
+            <!-- Audio Toggle Button -->
+            <button onclick="toggleAudio()" id="musicToggleBtn" class="w-10 h-10 rounded-full bg-pink-100 text-pink-600 hover:bg-pink-200 flex items-center justify-center transition shadow-sm" title="Toggle Sound">
+                <i class="fa-solid fa-music text-lg" id="musicIcon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="mainContainer" class="max-w-5xl mx-auto px-4 py-6 relative z-10 opacity-0 transition-opacity duration-700 flex-grow">
+
+        <!-- ================= SECTION 1: LOVE LETTER SECTION ================= -->
+        <section id="tab-letter" class="tab-content block space-y-6">
+            <div class="glass-card p-6 text-center max-w-2xl mx-auto">
+                <div class="inline-block px-4 py-1 bg-pink-100 text-pink-600 font-bold text-xs rounded-full uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-heart mr-1"></i> From A to S With All My Heart
+                </div>
+                <h2 class="font-fredoka text-3xl text-pink-600 mb-2">My Birthday Letter For You</h2>
+                <p class="text-gray-600 font-semibold text-sm">A letter written straight from my soul to my princess</p>
+            </div>
+
+            <!-- ELEGANT UNFOLDING LOVE LETTER PARCHMENT CARD -->
+            <div class="max-w-2xl mx-auto">
+                <div id="envelopeCard" class="glass-card p-8 md:p-10 relative overflow-hidden transition-all duration-500 shadow-xl border-2 border-pink-300">
+                    
+                    <!-- Decorative Background Hearts -->
+                    <div class="absolute -top-6 -right-6 text-pink-200 text-8xl opacity-40 pointer-events-none">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 text-pink-200 text-8xl opacity-40 pointer-events-none">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <div class="relative z-10 text-center">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center text-pink-500 text-2xl mx-auto mb-4 shadow-inner heart-beat">
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                        </div>
+
+                        <h3 class="font-fredoka text-2xl text-pink-600 mb-6">To My Sweet Girl 💌</h3>
+
+                        <!-- EXACT WORD-FOR-WORD REQUESTED LOVE LETTER -->
+                        <div class="bg-gradient-to-b from-amber-50 to-pink-50 p-6 md:p-8 rounded-2xl border border-amber-200/80 shadow-inner text-left font-handwriting text-2xl md:text-3xl text-gray-800 leading-relaxed tracking-wide relative">
+                            <p id="letterContent" class="leading-loose">
+                                "let me start with i love you cuz i truly do and always will my sweet girl and i wanna wish you A HAPPY BIRTHDAYYYYYY MY SWEET GIRL, its your birthday and im so so so happy i could celebrate it with you and i live you so much my lomlllllll, i need you to understand theres nothing i wouldn't do for you and i always will trt my best to make you happy, HAPPY BIRTHDAY MY PRINCESS"
+                            </p>
+                        </div>
+
+                        <div class="mt-6 flex flex-wrap justify-center gap-3">
+                            <button onclick="triggerConfetti()" class="px-6 py-2.5 bg-pink-500 hover:bg-pink-600 text-white rounded-full font-bold text-sm shadow transition flex items-center gap-2">
+                                <i class="fa-solid fa-heart"></i> Shower With Love
+                            </button>
+                            <button onclick="switchTab('main')" class="px-6 py-2.5 bg-purple-500 hover:bg-purple-600 text-white rounded-full font-bold text-sm shadow transition flex items-center gap-2">
+                                Blow Birthday Candles <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 2: CAKE & CANDLE BLOW ================= -->
+        <section id="tab-main" class="tab-content hidden space-y-8">
+            <div class="glass-card p-6 md:p-8 text-center relative overflow-hidden">
+                <div class="inline-block px-4 py-1 bg-pink-100 text-pink-600 font-bold text-xs rounded-full uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-sparkles mr-1"></i> Make A Wish My Sweet Girl!
+                </div>
+                <h1 class="font-fredoka text-3xl md:text-5xl text-pink-600 mb-3" id="heroGreeting">
+                    Happy Birthday Princess S! 🎉
+                </h1>
+                <p class="text-gray-600 max-w-xl mx-auto font-semibold">
+                    Tap on the cake or blow into your mic to extinguish the candles and celebrate!
+                </p>
+            </div>
+
+            <!-- INTERACTIVE LAYERED CAKE WITH CANDLES -->
+            <div class="glass-card p-8 flex flex-col items-center justify-center relative min-h-[420px]">
+                
+                <!-- Controls for Candles -->
+                <div class="mb-6 flex flex-wrap items-center justify-center gap-3">
+                    <button onclick="triggerConfetti()" class="px-4 py-2 bg-amber-400 hover:bg-amber-500 text-white rounded-full font-bold text-sm shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Pop Confetti
+                    </button>
+                    <button onclick="relightCandles()" class="px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-full font-bold text-sm shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-fire"></i> Relight Candles
+                    </button>
+                    <button id="micBtn" onclick="toggleMicrophone()" class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-full font-bold text-sm shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-microphone"></i> <span id="micBtnText">Enable Blow via Mic</span>
+                    </button>
+                </div>
+
+                <!-- Cake Graphic Wrapper -->
+                <div class="relative w-72 h-64 flex flex-col items-center justify-end my-4 cursor-pointer" onclick="blowOutCandlesManual()" title="Click to blow candles!">
+                    
+                    <!-- Candles Holder -->
+                    <div id="candlesContainer" class="absolute top-2 w-56 flex justify-around items-end z-30 px-2">
+                        <!-- Dynamic Candle Elements -->
+                    </div>
+
+                    <!-- Cake Tier 3 (Top Tier) -->
+                    <div class="w-44 h-16 bg-pink-300 rounded-t-3xl border-b-4 border-pink-400 relative shadow-inner flex justify-center items-center overflow-hidden">
+                        <div class="absolute top-0 w-full flex justify-around">
+                            <div class="w-6 h-6 bg-white rounded-b-full shadow-sm"></div>
+                            <div class="w-6 h-8 bg-white rounded-b-full shadow-sm"></div>
+                            <div class="w-6 h-5 bg-white rounded-b-full shadow-sm"></div>
+                            <div class="w-6 h-7 bg-white rounded-b-full shadow-sm"></div>
+                            <div class="w-6 h-6 bg-white rounded-b-full shadow-sm"></div>
+                        </div>
+                    </div>
+
+                    <!-- Cake Tier 2 (Middle Tier) -->
+                    <div class="w-56 h-20 bg-pink-400 rounded-t-2xl border-b-4 border-pink-500 relative shadow-md flex items-center justify-center overflow-hidden">
+                        <div class="flex gap-4 opacity-80">
+                            <span class="w-3 h-3 bg-yellow-300 rounded-full"></span>
+                            <span class="w-3 h-3 bg-white rounded-full"></span>
+                            <span class="w-3 h-3 bg-purple-300 rounded-full"></span>
+                            <span class="w-3 h-3 bg-yellow-300 rounded-full"></span>
+                        </div>
+                    </div>
+
+                    <!-- Cake Tier 1 (Base Tier) -->
+                    <div class="w-68 h-24 bg-pink-500 rounded-t-xl relative shadow-lg flex items-center justify-center overflow-hidden">
+                        <div class="w-full h-4 bg-white/40 my-auto"></div>
+                    </div>
+
+                    <!-- Cake Plate -->
+                    <div class="w-80 h-6 bg-gray-200 rounded-full border-b-4 border-gray-300 shadow-2xl z-0"></div>
+                </div>
+
+                <!-- Candle Status Message -->
+                <p id="candleStatus" class="mt-4 text-center font-bold text-pink-600 animate-pulse text-lg">
+                    ✨ Tap on the cake or blow into microphone to extinguish candles! ✨
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 3: MINI GAMES SECTION ================= -->
+        <section id="tab-games" class="tab-content hidden space-y-8">
+            <div class="glass-card p-6 text-center">
+                <h2 class="font-fredoka text-3xl text-pink-600 mb-2">Birthday Games Zone 🎮</h2>
+                <p class="text-gray-600 font-semibold">Play mini games and have fun on your special day!</p>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <button onclick="switchGame('balloon')" id="gameTab-balloon" class="px-6 py-2.5 rounded-full font-bold text-sm bg-pink-500 text-white shadow-md transition">
+                    🎈 Balloon Pop Challenge
+                </button>
+                <button onclick="switchGame('memory')" id="gameTab-memory" class="px-6 py-2.5 rounded-full font-bold text-sm bg-white/80 text-gray-700 hover:bg-pink-100 shadow-sm transition">
+                    🧠 Teddy & Heart Memory Match
+                </button>
+            </div>
+
+            <!-- GAME 1: BALLOON POP CHALLENGE -->
+            <div id="game-balloon" class="glass-card p-6 flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-4 pb-3 border-b border-pink-100">
+                    <div class="font-bold text-pink-600 text-lg">Score: <span id="balloonScore" class="text-2xl">0</span></div>
+                    <div class="font-bold text-purple-600 text-lg">Time: <span id="balloonTimer" class="text-2xl">30</span>s</div>
+                    <button onclick="startBalloonGame()" class="px-5 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full text-sm shadow transition">
+                        <i class="fa-solid fa-play mr-1"></i> Start Game
+                    </button>
+                </div>
+
+                <div id="balloonGameCanvas" class="relative w-full h-80 bg-gradient-to-b from-sky-100 to-indigo-100 rounded-2xl border-2 border-sky-200 overflow-hidden flex items-center justify-center">
+                    <div id="balloonGameMsg" class="text-center p-4">
+                        <p class="font-fredoka text-2xl text-pink-500 mb-2">Ready to Pop?</p>
+                        <p class="text-sm font-semibold text-gray-600">Click "Start Game" and pop as many balloons as you can!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GAME 2: MEMORY CARD MATCH -->
+            <div id="game-memory" class="glass-card p-6 hidden flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-4 pb-3 border-b border-pink-100">
+                    <div class="font-bold text-pink-600 text-lg">Moves: <span id="memoryMoves" class="text-2xl">0</span></div>
+                    <div class="font-bold text-purple-600 text-lg">Pairs: <span id="memoryPairs" class="text-2xl">0</span>/6</div>
+                    <button onclick="resetMemoryGame()" class="px-5 py-2 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-full text-sm shadow transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Reset Cards
+                    </button>
+                </div>
+
+                <div id="memoryGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 max-w-md w-full my-2">
+                    <!-- Dynamic memory cards -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 4: WISHES WALL ================= -->
+        <section id="tab-wishes" class="tab-content hidden space-y-8">
+            <div class="glass-card p-6 text-center">
+                <h2 class="font-fredoka text-3xl text-pink-600 mb-2">Sweet Notes Wall 📝</h2>
+                <p class="text-gray-600 font-semibold">Special birthday memories & thoughts from A for S!</p>
+            </div>
+
+            <div id="wishesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamic wish cards -->
+            </div>
+
+            <div class="glass-card p-6 max-w-2xl mx-auto">
+                <h3 class="font-fredoka text-xl text-pink-600 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square"></i> Leave A Sweet Note
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Author / Name</label>
+                        <input type="text" id="wishAuthor" placeholder="e.g. Your A, Your LOMLL..." class="w-full px-4 py-2.5 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Message</label>
+                        <textarea id="wishMessage" rows="3" placeholder="Write a cute note..." class="w-full px-4 py-2.5 rounded-xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/80"></textarea>
+                    </div>
+                    <button onclick="addNewWish()" class="px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-full font-bold shadow-md transition">
+                        Post Note <i class="fa-solid fa-paper-plane ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 5: SETTINGS ================= -->
+        <section id="tab-settings" class="tab-content hidden space-y-8">
+            <div class="glass-card p-6 text-center">
+                <h2 class="font-fredoka text-3xl text-pink-600 mb-2">Settings & Theme ⚙️</h2>
+                <p class="text-gray-600 font-semibold">Customize colors, music, and candle options!</p>
+            </div>
+
+            <div class="glass-card p-6 space-y-6 max-w-2xl mx-auto">
+                <div>
+                    <label class="block font-bold text-sm text-gray-700 mb-2">
+                        <i class="fa-solid fa-signature text-pink-500 mr-2"></i> Birthday Girl Name
+                    </label>
+                    <input type="text" id="settingNameInput" value="My Princess S" oninput="updateRecipientName(this.value)" class="w-full px-4 py-3 rounded-xl border border-pink-200 focus:ring-2 focus:ring-pink-400 focus:outline-none bg-white/80 font-bold text-lg text-pink-600">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-sm text-gray-700 mb-2">
+                        <i class="fa-solid fa-palette text-pink-500 mr-2"></i> Theme Palette Preset
+                    </label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <button onclick="applyTheme('pink')" class="p-3 rounded-xl border-2 border-pink-300 bg-pink-100 font-bold text-pink-600 text-xs sm:text-sm hover:scale-105 transition">
+                            🌸 Pastel Pink
+                        </button>
+                        <button onclick="applyTheme('sunset')" class="p-3 rounded-xl border-2 border-orange-300 bg-orange-100 font-bold text-orange-600 text-xs sm:text-sm hover:scale-105 transition">
+                            🌅 Sunset Romantic
+                        </button>
+                        <button onclick="applyTheme('twilight')" class="p-3 rounded-xl border-2 border-purple-300 bg-purple-100 font-bold text-purple-600 text-xs sm:text-sm hover:scale-105 transition">
+                            🔮 Twilight
+                        </button>
+                        <button onclick="applyTheme('gold')" class="p-3 rounded-xl border-2 border-amber-300 bg-amber-100 font-bold text-amber-700 text-xs sm:text-sm hover:scale-105 transition">
+                            ✨ Gold Sparkle
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="font-bold text-sm text-gray-700">
+                            <i class="fa-solid fa-cake-candles text-pink-500 mr-2"></i> Birthday Candles Count
+                        </label>
+                        <span id="candleCountVal" class="font-bold text-pink-600 text-lg">5</span>
+                    </div>
+                    <input type="range" id="candleSlider" min="1" max="10" value="5" oninput="updateCandleCount(this.value)" class="w-full accent-pink-500 cursor-pointer">
+                </div>
+
+                <div class="flex items-center justify-between p-4 bg-white/60 rounded-xl border border-pink-100">
+                    <div>
+                        <div class="font-bold text-gray-800">Synthesized Happy Birthday Melody</div>
+                        <div class="text-xs text-gray-500">Procedural Web Audio API sound generator</div>
+                    </div>
+                    <button onclick="toggleAudio()" class="px-4 py-2 rounded-full font-bold text-sm bg-pink-500 text-white shadow hover:bg-pink-600 transition">
+                        Toggle Sound
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-4 text-xs font-semibold text-gray-500 relative z-10">
+        Made with love from A for S! Happy Birthday My Princess! ❤️✨
+    </footer>
+
+    <script>
+        // GLOBAL STATE
+        let birthdayName = "My Princess S";
+        let candleCount = 5;
+        let candlesLit = true;
+        let audioActive = false;
+        let audioCtx = null;
+        let micAnalyser = null;
+        let isMicEnabled = false;
+
+        // Wishes Initial Data
+        let wishesData = [
+            { author: "Your A", text: "let me start with i love you cuz i truly do and always will my sweet girl! HAPPY BIRTHDAY MY PRINCESS! ❤️" },
+            { author: "Your LOMLL", text: "Theres nothing I wouldn't do for you, I'll always try my best to make you happy!" },
+            { author: "Teddy Bears A & S", text: "Sending warm bear hugs, sweet treats, and eternal love on your birthday!" }
+        ];
+
+        // ON WINDOW LOAD
+        window.onload = function() {
+            renderCandles();
+            renderWishes();
+            spawnBackgroundBalloons();
+            spawnFloatingParticles();
+            initMemoryGame();
+        };
+
+        // ENTER CELEBRATION
+        function enterCelebration() {
+            const scene = document.getElementById('openingScene');
+            const header = document.getElementById('mainHeader');
+            const main = document.getElementById('mainContainer');
+
+            scene.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                scene.style.display = 'none';
+                header.classList.remove('opacity-0');
+                main.classList.remove('opacity-0');
+                triggerConfetti();
+            }, 800);
+        }
+
+        // TAB SWITCHER
+        function switchTab(tabKey) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-pink-600', 'shadow-sm');
+                btn.classList.add('text-gray-600');
+            });
+
+            document.getElementById(`tab-${tabKey}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabKey}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-pink-600', 'shadow-sm');
+                activeBtn.classList.remove('text-gray-600');
+            }
+        }
+
+        // CANDLE RENDER & ANIMATION ENGINE
+        function renderCandles() {
+            const container = document.getElementById('candlesContainer');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < candleCount; i++) {
+                const candle = document.createElement('div');
+                candle.className = 'flex flex-col items-center relative';
+                
+                candle.innerHTML = `
+                    <div class="flame w-4 h-6 bg-gradient-to-t from-red-500 via-amber-400 to-yellow-200 rounded-full shadow-lg ${candlesLit ? '' : 'hidden'}" id="flame-${i}"></div>
+                    <div class="w-3 h-12 bg-gradient-to-r from-yellow-100 via-pink-200 to-yellow-100 rounded-t-sm border border-yellow-300"></div>
+                `;
+                container.appendChild(candle);
+            }
+            
+            document.getElementById('candleStatus').innerHTML = candlesLit ? 
+                '✨ Tap on the cake or blow into microphone to extinguish candles! ✨' : 
+                '🎉 Make a wish my sweet girl! Candles blown out! 🎉';
+        }
+
+        function blowOutCandlesManual() {
+            if (!candlesLit) return;
+            candlesLit = false;
+            
+            // Add smoke animation
+            const container = document.getElementById('candlesContainer');
+            for (let i = 0; i < container.children.length; i++) {
+                const candleEl = container.children[i];
+                const smoke = document.createElement('div');
+                smoke.className = 'smoke-particle absolute top-0 w-3 h-3 bg-gray-400 rounded-full blur-xs';
+                candleEl.appendChild(smoke);
+                setTimeout(() => smoke.remove(), 1200);
+            }
+
+            renderCandles();
+            playPopSound();
+            triggerConfetti();
+        }
+
+        function relightCandles() {
+            candlesLit = true;
+            renderCandles();
+        }
+
+        function updateCandleCount(val) {
+            candleCount = parseInt(val);
+            document.getElementById('candleCountVal').innerText = val;
+            renderCandles();
+        }
+
+        // WEB AUDIO SYNTHESIZER
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playTone(freq, duration = 0.2, type = 'sine') {
+            try {
+                initAudioContext();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function playPopSound() {
+            playTone(400, 0.08, 'triangle');
+            setTimeout(() => playTone(650, 0.12, 'sine'), 40);
+        }
+
+        let bgMusicInterval = null;
+        function toggleAudio() {
+            audioActive = !audioActive;
+            const icon = document.getElementById('musicIcon');
+            
+            if (audioActive) {
+                icon.className = 'fa-solid fa-volume-high text-lg';
+                initAudioContext();
+                const notes = [261.63, 261.63, 293.66, 261.63, 349.23, 329.63, 261.63, 261.63, 293.66, 261.63, 392.00, 349.23];
+                let idx = 0;
+                bgMusicInterval = setInterval(() => {
+                    if (audioActive) {
+                        playTone(notes[idx % notes.length], 0.35, 'sine');
+                        idx++;
+                    }
+                }, 450);
+            } else {
+                icon.className = 'fa-solid fa-music text-lg';
+                if (bgMusicInterval) clearInterval(bgMusicInterval);
+            }
+        }
+
+        // MICROPHONE DETECTOR
+        async function toggleMicrophone() {
+            const btnText = document.getElementById('micBtnText');
+            if (isMicEnabled) {
+                isMicEnabled = false;
+                btnText.innerText = "Enable Blow via Mic";
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                initAudioContext();
+                micAnalyser = audioCtx.createAnalyser();
+                const source = audioCtx.createMediaStreamSource(stream);
+                source.connect(micAnalyser);
+                micAnalyser.fftSize = 256;
+                
+                isMicEnabled = true;
+                btnText.innerText = "Mic Active (Blow now!)";
+                listenBlow();
+            } catch (err) {
+                alert("Microphone permission denied or not supported.");
+            }
+        }
+
+        function listenBlow() {
+            if (!isMicEnabled) return;
+            const dataArray = new Uint8Array(micAnalyser.frequencyBinCount);
+            micAnalyser.getByteFrequencyData(dataArray);
+            
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i];
+            }
+            let average = sum / dataArray.length;
+
+            if (average > 45 && candlesLit) {
+                blowOutCandlesManual();
+            }
+
+            requestAnimationFrame(listenBlow);
+        }
+
+        // CONFETTI SYSTEM
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 90,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // FLOATING BACKGROUND BALLOONS & PARTICLES
+        function spawnBackgroundBalloons() {
+            const container = document.getElementById('balloonContainer');
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a855f7', '#ff80bf'];
+
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'floating-balloon pointer-events-auto';
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                balloon.style.left = `${Math.random() * 90}%`;
+                balloon.style.animationDuration = `${8 + Math.random() * 8}s`;
+                balloon.style.animationDelay = `${Math.random() * 5}s`;
+
+                balloon.innerHTML = `
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-12 h-16 rounded-full shadow-md opacity-80" style="background-color: ${color}"></div>
+                        <div class="w-1 h-8 bg-gray-400 opacity-60"></div>
+                    </div>
+                `;
+
+                balloon.onclick = function() {
+                    playPopSound();
+                    triggerConfetti();
+                    balloon.style.transform = 'scale(1.4)';
+                    balloon.style.opacity = '0';
+                    setTimeout(() => balloon.remove(), 200);
+                };
+
+                container.appendChild(balloon);
+            }
+        }
+
+        function spawnFloatingParticles() {
+            const container = document.getElementById('particleContainer');
+            const symbols = ['💖', '✨', '🌸', '🧸', '💕', '👑'];
+            
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle text-xl opacity-70';
+                p.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.animationDuration = `${6 + Math.random() * 6}s`;
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(p);
+            }
+        }
+
+        // WISHES ENGINE
+        function renderWishes() {
+            const grid = document.getElementById('wishesGrid');
+            grid.innerHTML = '';
+
+            wishesData.forEach((w, index) => {
+                const card = document.createElement('div');
+                card.className = 'glass-card p-6 flex flex-col justify-between hover:scale-[1.02] transition duration-300';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="font-bold text-pink-600 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-heart text-pink-500"></i> ${w.author}
+                            </span>
+                            <span class="text-xs text-gray-400">Note #${index + 1}</span>
+                        </div>
+                        <p class="text-gray-700 italic font-semibold text-base mb-4">"${w.text}"</p>
+                    </div>
+                    <div class="text-right">
+                        <button onclick="triggerConfetti()" class="text-xs font-bold text-pink-500 hover:text-pink-700">Send Love ❤️</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function addNewWish() {
+            const author = document.getElementById('wishAuthor').value.trim() || "Your Sweet A";
+            const text = document.getElementById('wishMessage').value.trim();
+
+            if (!text) return;
+
+            wishesData.unshift({ author, text });
+            renderWishes();
+            document.getElementById('wishAuthor').value = '';
+            document.getElementById('wishMessage').value = '';
+            triggerConfetti();
+        }
+
+        // GAME SWITCHER & LOGIC
+        function switchGame(gameKey) {
+            document.getElementById('game-balloon').classList.add('hidden');
+            document.getElementById('game-memory').classList.add('hidden');
+            document.getElementById('gameTab-balloon').className = 'px-6 py-2.5 rounded-full font-bold text-sm bg-white/80 text-gray-700 hover:bg-pink-100 shadow-sm transition';
+            document.getElementById('gameTab-memory').className = 'px-6 py-2.5 rounded-full font-bold text-sm bg-white/80 text-gray-700 hover:bg-pink-100 shadow-sm transition';
+
+            document.getElementById(`game-${gameKey}`).classList.remove('hidden');
+            document.getElementById(`gameTab-${gameKey}`).className = 'px-6 py-2.5 rounded-full font-bold text-sm bg-pink-500 text-white shadow-md transition';
+        }
+
+        // GAME 1: BALLOON POP CHALLENGE
+        let balloonScore = 0;
+        let balloonTimer = 30;
+        let balloonGameInterval = null;
+
+        function startBalloonGame() {
+            balloonScore = 0;
+            balloonTimer = 30;
+            document.getElementById('balloonScore').innerText = balloonScore;
+            document.getElementById('balloonTimer').innerText = balloonTimer;
+
+            const canvas = document.getElementById('balloonGameCanvas');
+            canvas.innerHTML = '';
+
+            if (balloonGameInterval) clearInterval(balloonGameInterval);
+
+            balloonGameInterval = setInterval(() => {
+                balloonTimer--;
+                document.getElementById('balloonTimer').innerText = balloonTimer;
+
+                if (balloonTimer <= 0) {
+                    clearInterval(balloonGameInterval);
+                    canvas.innerHTML = `
+                        <div class="text-center p-4">
+                            <h3 class="font-fredoka text-3xl text-pink-600 mb-2">Game Over! 🎉</h3>
+                            <p class="font-bold text-gray-700 text-lg mb-4">You popped ${balloonScore} balloons for your birthday!</p>
+                            <button onclick="startBalloonGame()" class="px-6 py-2.5 bg-pink-500 text-white rounded-full font-bold shadow hover:bg-pink-600 transition">Play Again</button>
+                        </div>
+                    `;
+                } else {
+                    spawnGameBalloon(canvas);
+                }
+            }, 1000);
+
+            for (let i = 0; i < 4; i++) spawnGameBalloon(canvas);
+        }
+
+        function spawnGameBalloon(canvas) {
+            if (balloonTimer <= 0) return;
+            const b = document.createElement('div');
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a855f7', '#ff80bf'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            b.className = 'absolute cursor-pointer transition-transform hover:scale-110';
+            b.style.left = `${10 + Math.random() * 80}%`;
+            b.style.top = `${10 + Math.random() * 70}%`;
+
+            b.innerHTML = `
+                <div class="w-10 h-14 rounded-full shadow-md" style="background-color: ${color}"></div>
+            `;
+
+            b.onclick = function() {
+                playPopSound();
+                balloonScore += 10;
+                document.getElementById('balloonScore').innerText = balloonScore;
+                b.remove();
+                spawnGameBalloon(canvas);
+            };
+
+            canvas.appendChild(b);
+        }
+
+        // GAME 2: MEMORY CARD MATCH
+        const memoryIcons = ['🧸', '💖', '🎂', '🎈', '🎉', '👑'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let memoryMoves = 0;
+        let memoryPairs = 0;
+
+        function initMemoryGame() {
+            memoryCards = [...memoryIcons, ...memoryIcons].sort(() => Math.random() - 0.5);
+            memoryMoves = 0;
+            memoryPairs = 0;
+            flippedCards = [];
+            document.getElementById('memoryMoves').innerText = '0';
+            document.getElementById('memoryPairs').innerText = '0';
+
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+
+            memoryCards.forEach((icon, idx) => {
+                const card = document.createElement('div');
+                card.className = 'w-20 h-20 bg-white/90 border-2 border-pink-200 rounded-2xl flex items-center justify-center text-3xl cursor-pointer shadow-sm hover:border-pink-400 transition transform duration-200';
+                card.dataset.index = idx;
+                card.dataset.icon = icon;
+                card.innerHTML = '❓';
+
+                card.onclick = function() {
+                    if (flippedCards.length < 2 && !card.classList.contains('matched') && !flippedCards.includes(card)) {
+                        card.innerHTML = icon;
+                        card.classList.add('bg-pink-100');
+                        flippedCards.push(card);
+
+                        if (flippedCards.length === 2) {
+                            memoryMoves++;
+                            document.getElementById('memoryMoves').innerText = memoryMoves;
+
+                            if (flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
+                                flippedCards.forEach(c => c.classList.add('matched', 'bg-green-100', 'border-green-300'));
+                                memoryPairs++;
+                                document.getElementById('memoryPairs').innerText = memoryPairs;
+                                flippedCards = [];
+
+                                if (memoryPairs === 6) {
+                                    triggerConfetti();
+                                }
+                            } else {
+                                setTimeout(() => {
+                                    flippedCards.forEach(c => {
+                                        c.innerHTML = '❓';
+                                        c.classList.remove('bg-pink-100');
+                                    });
+                                    flippedCards = [];
+                                }, 800);
+                            }
+                        }
+                    }
+                };
+
+                grid.appendChild(card);
+            });
+        }
+
+        function resetMemoryGame() {
+            initMemoryGame();
+        }
+
+        // SETTINGS HANDLERS
+        function updateRecipientName(val) {
+            birthdayName = val || "My Princess S";
+            document.getElementById('displayHeaderName').innerText = birthdayName;
+            document.getElementById('heroGreeting').innerText = `Happy Birthday ${birthdayName}! 🎉`;
+        }
+
+        function applyTheme(themeKey) {
+            document.body.className = `theme-${themeKey} relative min-h-screen pb-12 flex flex-col justify-between`;
+        }
+    </script>
+</body>
+  </html>
